@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <br>
+
+    <h1>Iniciar sesión</h1>
+
+    {% if form.errors %}
+        <p>Tu usuario y contraseña no coinciden</p>
+    {% endif %}
+
+    <br>
+
+    <div class="container">
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Nombre de usuario:</label>
+                <input type="text" class="form-control" id="id_username" name="username" required>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="id_password" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="id_password" name="password" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+        </form>
+    </div>
+
+{% endblock %}

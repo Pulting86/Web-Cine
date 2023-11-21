@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <br>
+    <h1>{{ api.pelicula_id }}</h1>
+    <br>
+    <h5>{{ api.descripcion }}</h5>
+    <br>
+    <img src="{{ api.photo }}" alt="" class="img-fluid rounded mx-auto d-block">
+    <br>
+    <table class="table">
+        <tr class="table-info">
+            <th>Sesiones</th>
+            <th>Salas</th>
+        </tr>
+        {% for copia in copias %}
+            <tr class="table-light">
+                <td>{{ copia.sesion }}</td>
+                <td>{{ copia.sala.get }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser or request.user.is_staff %}
+            <button class="btn btn-info opacity-75"><a href="{% url 'sesion-create' %}" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none">Crear Sesiones</a></button>
+        {% endif %}
+    {% endif %}
+{% endblock %}
