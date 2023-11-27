@@ -5,46 +5,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width-device-width, initial-scale=1.0">
     <title>Cine</title>
-    
+
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'img/cine.png' %}" type="image/x-icon">
 
     {% load bootstrap5 %}
     {% bootstrap_css %}
-    {% bootstrap_javascript %}
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100 bg-warning bg-opacity-10">
     <header>
         <nav>
-            <ul class="nav bg-info">
+            <ul class="nav bg-info rounded-pill">
+                <li class="nav-item ms-4">
+                    <img src="{% static 'img/cine.png' %}" width="45rem">
+                </li>
                 <li class="nav-item">
                     <a class="nav-link link-light" href="{% url 'index' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link-light" href="{% url 'pelicula_list' %}">Películas</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="{% url 'buscar' %}">Buscar</a>
+                </li>
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link link-light" href="{% url 'logout' %}">Cerrar sesión</a>
-                    </li class="nav-item">
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="{% url 'logout' %}">Cerrar sesión</a>
+                </li class="nav-item">
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link link-light" href="{% url 'sign-up' %}">Registrar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-light" href="{% url 'login' %}">Iniciar sesión</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="{% url 'sign-up' %}">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="{% url 'login' %}">Iniciar sesión</a>
+                </li>
                 {% endif %}
             </ul>
         </nav>
     </header>
-    <main class="container">
+    <main class="container flex-grow-1">
         {% block content %} {% endblock %}
     </main>
-    <footer>
-        
+    <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Contacto</h5>
+                    <p>Correo: info@cineimmune.com</p>
+                    <p>Teléfono: +123 456 789</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a class="text-light" href="{% url 'pelicula_list' %}">Películas</a></li>
+                        <li><a class="text-light" href="{% url 'sign-up' %}">Registrar</a></li>
+                        <li><a class="text-light" href="{% url 'login' %}">Iniciar sesión</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Síguenos</h5>
+                    <a href="https://facebook.com/Cine IMMUNE" class="text-light me-2"><i class="fab fa-facebook">Facebook</i></a>
+                    <a href="https://twitter.com/Cine IMMUNE" class="text-light me-2"><i class="fab fa-twitter">Twitter</i></a>
+                    <a href="https://instagram.com/Cine IMMUNE" class="text-light me-2"><i class="fab fa-instagram">Instagram</i></a>
+                </div>
+            </div>
+        </div>
     </footer>
+    {% bootstrap_javascript %}
 </body>
 
 </html>

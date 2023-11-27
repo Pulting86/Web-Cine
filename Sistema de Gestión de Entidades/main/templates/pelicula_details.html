@@ -1,22 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <br>
-    <h1>{{ api.pelicula_id }}</h1>
-    <br>
-    <h5>{{ api.descripcion }}</h5>
-    <br>
-    <img src="{{ api.photo }}" alt="" class="img-fluid rounded mx-auto d-block">
-    <br>
+    {% for api in apis %}
+        <br>
+        <h1>{{ api.pelicula_id }}</h1>
+        <br>
+        <h5>{{ api.descripcion }}</h5>
+        <br>
+        <img src="{{ api.photo }}" alt="" class="img-fluid rounded mx-auto d-block">
+        <br>
+    {% endfor %}
     <table class="table">
         <tr class="table-info">
             <th>Sesiones</th>
             <th>Salas</th>
+            <th>Reservar</th>
         </tr>
         {% for copia in copias %}
             <tr class="table-light">
                 <td>{{ copia.sesion }}</td>
-                <td>{{ copia.sala.get }}</td>
+                <td>Sala {{ copia.sala.get.numero }}</td>
+                {% if user.is_authenticated %}
+                    <td><button class="btn btn-info"><a href="{{ copia.sala.get.get_absolute_url }}" class="text-decoration-none text-dark">Reservar</a></button></td>
+                {% else %}
+                    <td><button class="btn btn-info"><a href="{% url 'login' %}" class="text-decoration-none text-dark">Iniciar Sesión para Reservar</a></button></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
@@ -25,4 +33,5 @@
             <button class="btn btn-info opacity-75"><a href="{% url 'sesion-create' %}" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none">Crear Sesiones</a></button>
         {% endif %}
     {% endif %}
+    <p></p>
 {% endblock %}

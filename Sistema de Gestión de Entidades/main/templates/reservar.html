@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <form action="" method="post" class="text-center">
+        {% csrf_token %}
+        <h1 class="mt-4 mb-4">Cine IMMUNE</h1>
+        <div class="border border-dark bg-dark text-white p-3 rounded">
+            <h3 class="mb-0">PANTALLA</h3>
+        </div>
+        <br>
+        {% for asiento in sala.asiento.all %}
+            {% if asiento.reservado %}
+                <input type="checkbox" name="asiento_{{ asiento.id }}" disabled id="{{ asiento.id }}" hidden>
+                <label for="{{ asiento.id }}"><img src="{% static 'img/silla_reservada.png' %}" id="label_{{ asiento.id }}" class="asientos img-fluid" alt="Silla Reservada" width="50" height="50"/></label>
+            {% else %}
+                <input type="checkbox" name="asiento_{{ asiento.id }}" id="{{ asiento.id }}" hidden>
+                <label for="{{ asiento.id }}"><img src="{% static 'img/silla_vacia.png' %}" id="label_{{ asiento.id }}" onclick="seleccionar()" class="asientos img" alt="Silla Vacía" width="50" height="50"/></label>
+            {% endif %}
+            {% if asiento.id == 10 or asiento.id == 20 or asiento.id == 30 or asiento.id == 40 or asiento.id == 60 or asiento.id == 70 or asiento.id == 80 or asiento.id == 90 or asiento.id == 110 or asiento.id == 120 or asiento.id == 130 or asiento.id == 140 or asiento.id == 160 or asiento.id == 170 or asiento.id == 180 or asiento.id == 190 or asiento.id == 210 or asiento.id == 220 or asiento.id == 230 or asiento.id == 240 %}
+                <p></p>
+            {% endif %}
+        {% endfor %}
+        <br>
+        <br>
+        <button onclick="reservar()" type="button" class="btn btn-info mt-3">Reservar</button>
+        <div hidden id="ventanaReserva">
+            <br>
+            <br>
+            <div class="form-group">
+                <input type="number" class="form-control" id="numeroTarjeta" name="numerotarjeta" placeholder="Numero de tarjeta" required>
+            </div>
+            <div class="form-group">
+                <input type="date" class="form-control" id="caducidad" name="caducidad" placeholder="Fecha de caducidad" required>
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" id="CVV" name="CVV" placeholder="CVV" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="nombreTitular" name="Nombre del titular" placeholder="Nombre del titular" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-warning">Confirmar reserva</button>
+        </div>
+    </form>
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser or request.user.is_staff %}
+            <div class="text-center">
+                <button class="btn btn-info mt-3"><a href="{{ sala.vaciar }}" class="text-decoration-none text-dark ">Quitar reservas</a></button>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+<script src="{% static 'js/asiento.js' %}" type="text/javascript"></script>
+{% endblock %}

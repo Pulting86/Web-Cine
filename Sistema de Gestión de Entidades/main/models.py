@@ -22,7 +22,10 @@ class Sala(models.Model):
         return str(self.numero)
 
     def get_absolute_url(self):
-        return reverse('pelicula_list', args=[str(self.id)])
+        return reverse('reservar', args=[str(self.id)])
+
+    def vaciar(self):
+        return reverse('vaciar-sala', args=[str(self.id)])
 
 
 class Sesion(models.Model):
@@ -42,6 +45,7 @@ class Pelicula(models.Model):
     titulo = models.CharField(max_length=200)
     sala = models.ManyToManyField(Sala)
     sesion = models.ForeignKey(Sesion, on_delete=models.CASCADE, null=True, blank=True)
+    categorias = models.CharField(max_length=200, null=True, blank=True)
 
     class Meta:
         ordering = ['titulo', 'sesion']
@@ -67,10 +71,15 @@ class Copia(models.Model):
 
 class API_Pelicula(models.Model):
     pelicula_id = models.ForeignKey(Pelicula, on_delete=models.CASCADE, null=True, blank=True)
+    titulo = models.CharField(max_length=200, null=True, blank=True)
     descripcion = models.TextField()
     photo = models.URLField()
 
+    def __str__(self):
+        return self.titulo
 
+    def get_absolute_url(self):
+        return reverse('pelicula_details', args=[str(self.pelicula_id.id)])
 
 
 class Perfil(models.Model):
